@@ -1,0 +1,17 @@
+.mtj.tmp/
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+target/*
+out/*
+*.iml
+.idea/*
+.settings/
+.classpath
+.project
+.vscode/
+project/
+*.log
+metastore_db/
