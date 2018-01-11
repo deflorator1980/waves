@@ -1,14 +1,16 @@
 package conf.controller;
-import conf.repos.PresentationRepository;
-import conf.repos.RoleRepository;
-import conf.repos.RoomRepository;
-import conf.repos.UserRepository;
+import conf.model.Room;
+import conf.model.Schedule;
+import conf.repos.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.core.context.SecurityContextHolder;
 //import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ConfController {
@@ -24,6 +26,9 @@ public class ConfController {
 
     @Autowired
     private PresentationRepository presentationRepository;
+
+    @Autowired
+    private ScheduleRepository scheduleRepository;
 
     @RequestMapping("/users")
     public ResponseEntity<?> showUsers() {
@@ -43,6 +48,20 @@ public class ConfController {
     @RequestMapping("/presentations")
     public ResponseEntity<?> showPresentations() {
         return new ResponseEntity<Object>(presentationRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/schedule")
+    public ResponseEntity<?> showSchedule() {
+
+        List<Schedule> schedules = new ArrayList<>();
+
+        for (Room room : roomRepository.findAll()) {
+            for (Schedule schedule : scheduleRepository.findByRoomId(room.getId())){
+                schedules.add(schedule);
+            }
+        }
+
+        return new ResponseEntity<Object>(schedules, HttpStatus.OK);
     }
 
 }

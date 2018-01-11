@@ -3,10 +3,8 @@ package conf.model;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Data
@@ -21,11 +19,17 @@ public class User {
     private String lastName;
     private String passwd;
     private int role;
+    private Set<Schedule> schedules;
 
     public User(String firstName, String lastName, String passwd, int role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.passwd = passwd;
         this.role = role;
+    }
+
+    @OneToMany(mappedBy = "user")
+    public Set<Schedule> getSchedules() {
+        return schedules;
     }
 }

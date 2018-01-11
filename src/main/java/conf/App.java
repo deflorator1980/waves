@@ -1,13 +1,7 @@
 package conf;
 
-import conf.model.Presentation;
-import conf.model.Role;
-import conf.model.Room;
-import conf.model.User;
-import conf.repos.PresentationRepository;
-import conf.repos.RoleRepository;
-import conf.repos.RoomRepository;
-import conf.repos.UserRepository;
+import conf.model.*;
+import conf.repos.*;
 import javafx.application.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.CommandLineRunner;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 
 @SpringBootApplication
 public class App implements CommandLineRunner{
@@ -34,6 +29,9 @@ public class App implements CommandLineRunner{
 
     @Autowired
     PresentationRepository presentationRepository;
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
@@ -60,7 +58,25 @@ public class App implements CommandLineRunner{
         presentationRepository.save(new Presentation("PresetationTwo"));
         presentationRepository.save(new Presentation("PresetationThree"));
         presentationRepository.findAll().forEach(p -> log.info(p.toString()));
-    }
 
+        scheduleRepository.save(new Schedule(LocalDate.of(2018, 2, 16), 1, 1));
+        scheduleRepository.save(new Schedule(LocalDate.of(2018, 1, 16), 1, 1));
+        scheduleRepository.save(new Schedule(LocalDate.of(2018, 4, 24), 2, 2));
+        scheduleRepository.save(new Schedule(LocalDate.of(2018, 4, 25), 2, 2));
+        scheduleRepository.findAll().forEach(s -> log.info(s.toString()));
+        scheduleRepository.findByRoomId(1).forEach(s -> log.info("room one: " + s.toString()));
+
+        for (Room room : roomRepository.findAll()) {
+            for (Schedule schedule : scheduleRepository.findByRoomId(room.getId())){
+                log.info(schedule.toString());
+            }
+        }
+
+        roomRepository.findAll().forEach(room -> {
+            scheduleRepository.findByRoomId(room.getId()).forEach(schedule -> log.info(schedule.toString()));
+        });
+    }
+//todo schedule.setUser etc
+//    https://hellokoding.com/jpa-many-to-many-extra-columns-relationship-mapping-example-with-spring-boot-maven-and-mysql/
 
 }
