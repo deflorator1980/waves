@@ -62,7 +62,7 @@ public class App implements CommandLineRunner{
         schedule.setPresentation(presentationA);
         schedule.setUser(userA);
         schedule.setDate(LocalDate.now());
-        userA.getSchedules().add(schedule);
+//        userA.getSchedules().add(schedule);
 
         userRepository.save(userA);
         presentationRepository.save(presentationA);

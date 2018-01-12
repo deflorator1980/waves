@@ -13,12 +13,14 @@ public class User {
 
     @Id
     @GeneratedValue(strategy=GenerationType.AUTO)
-    private Long id;
+    private int id;
 
     private String firstName;
     private String lastName;
     private String passwd;
     private int role;
+
+    @OneToMany(mappedBy = "user")
     private Set<Schedule> schedules;
 
     public User(String firstName, String lastName, String passwd, int role) {
@@ -26,10 +28,5 @@ public class User {
         this.lastName = lastName;
         this.passwd = passwd;
         this.role = role;
-    }
-
-    @OneToMany(mappedBy = "user")
-    public Set<Schedule> getSchedules() {
-        return schedules;
     }
 }
