@@ -27,9 +27,6 @@ public class ConfController {
     @Autowired
     private PresentationRepository presentationRepository;
 
-    @Autowired
-    private ScheduleRepository scheduleRepository;
-
     @RequestMapping("/users")
     public ResponseEntity<?> showUsers() {
         return new ResponseEntity<Object>(userRepository.findAll(), HttpStatus.OK);
@@ -48,20 +45,6 @@ public class ConfController {
     @RequestMapping("/presentations")
     public ResponseEntity<?> showPresentations() {
         return new ResponseEntity<Object>(presentationRepository.findAll(), HttpStatus.OK);
-    }
-
-    @RequestMapping("/schedule")
-    public ResponseEntity<?> showSchedule() {
-
-        List<Schedule> schedules = new ArrayList<>();
-
-        for (Room room : roomRepository.findAll()) {
-            for (Schedule schedule : scheduleRepository.findByRoomId(room.getId())){
-                schedules.add(schedule);
-            }
-        }
-
-        return new ResponseEntity<Object>(schedules, HttpStatus.OK);
     }
 
 }

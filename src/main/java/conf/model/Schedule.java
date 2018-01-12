@@ -18,7 +18,7 @@ public class Schedule implements Serializable{
     @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "date")
+//    @Column(name = "date")
     private LocalDate date;
 
     @Id
