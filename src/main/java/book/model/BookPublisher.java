@@ -7,9 +7,20 @@ import java.util.Date;
 @Entity
 @Table(name = "book_publisher")
 public class BookPublisher implements Serializable{
+//    private int id;
     private Book book;
     private Publisher publisher;
     private Date publishedDate;
+
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     @Id
     @ManyToOne

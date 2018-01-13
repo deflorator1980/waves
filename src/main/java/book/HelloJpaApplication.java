@@ -3,7 +3,6 @@ package book;
 import book.model.Book;
 import book.model.BookPublisher;
 import book.model.Publisher;
-import book.repository.BookPublisherRepository;
 import book.repository.BookRepository;
 import book.repository.PublisherRepository;
 import org.slf4j.Logger;
@@ -26,8 +25,6 @@ public class HelloJpaApplication implements CommandLineRunner {
     @Autowired
     private PublisherRepository publisherRepository;
 
-    @Autowired
-    private BookPublisherRepository bookPublisherRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(HelloJpaApplication.class, args);
@@ -36,7 +33,7 @@ public class HelloJpaApplication implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... strings) throws Exception {
-        Book bookA = new Book("Book A");
+        Book bookA = new Book("BookA");
 
         Publisher publisherA = new Publisher("Publisher A");
 
@@ -48,8 +45,6 @@ public class HelloJpaApplication implements CommandLineRunner {
 
         publisherRepository.save(publisherA);
         bookRepository.save(bookA);
-
-        System.out.println("BPR: " + bookPublisherRepository.findAll());
 
         // test
         System.out.println(bookA.getBookPublishers().size());
