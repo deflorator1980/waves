@@ -1,4 +1,6 @@
 package conf.controller;
+import book.repository.BookRepository;
+import book.repository.PublisherRepository;
 import conf.model.Room;
 import conf.model.Schedule;
 import conf.repos.*;
@@ -27,6 +29,12 @@ public class ConfController {
     @Autowired
     private PresentationRepository presentationRepository;
 
+    @Autowired
+    private BookRepository bookRepository;
+
+    @Autowired
+    private PublisherRepository publisherRepository;
+
     @RequestMapping("/users")
     public ResponseEntity<?> showUsers() {
         return new ResponseEntity<Object>(userRepository.findAll(), HttpStatus.OK);
@@ -45,6 +53,16 @@ public class ConfController {
     @RequestMapping("/presentations")
     public ResponseEntity<?> showPresentations() {
         return new ResponseEntity<Object>(presentationRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/books")
+    public ResponseEntity<?> showBooks() {
+        return new ResponseEntity<Object>(bookRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/publishers")
+    public ResponseEntity<?> showPublishers() {
+        return new ResponseEntity<Object>(publisherRepository.findAll(), HttpStatus.OK);
     }
 
 }

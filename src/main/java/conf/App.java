@@ -11,6 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @SpringBootApplication
 public class App implements CommandLineRunner{
@@ -62,19 +64,24 @@ public class App implements CommandLineRunner{
         schedule.setPresentation(presentationA);
         schedule.setUser(userA);
         schedule.setDate(LocalDate.now());
+
+        Set<Schedule> schedules = new HashSet<>();
+        schedules.add(schedule);
+        userA.setSchedules(schedules);
 //        userA.getSchedules().add(schedule);
+//        presentationA.getSchedules().add(schedule);
 
         userRepository.save(userA);
         presentationRepository.save(presentationA);
 
-//        log.info(userA.toString());
-//        log.info(presentationA.toString());
+        presentationRepository.findAll().forEach(p -> log.info(p.toString()));
+        userRepository.findAll().forEach(u -> log.info(u.toString()));
 
-
-
-
+        log.info(userA.toString());
+        log.info(presentationA.toString());
     }
-//todo schedule.setUser etc
+//todo user-schedule -> infinit object
+//    https://stackoverflow.com/questions/35225053/tostring-function-for-jpa-one-to-many-relations-raises-stackoverflowerror
 //    https://hellokoding.com/jpa-many-to-many-extra-columns-relationship-mapping-example-with-spring-boot-maven-and-mysql/
 
 }

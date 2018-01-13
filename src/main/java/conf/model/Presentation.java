@@ -1,6 +1,7 @@
 package conf.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.util.Set;
 
-@Entity
+@Entity(name = "presentation")
 //@Data
 @NoArgsConstructor
 public class Presentation {
@@ -21,6 +22,7 @@ public class Presentation {
     @Getter @Setter
     private String name;
 
+    @JsonManagedReference("presentation-schedule")
     @OneToMany(mappedBy = "presentation", cascade = CascadeType.ALL, orphanRemoval = true)
 //    @JsonIgnore
     @Getter @Setter
@@ -31,4 +33,12 @@ public class Presentation {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return "Presentation{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", schedules=" + schedules +
+                '}';
+    }
 }
