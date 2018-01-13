@@ -35,7 +35,7 @@ public class HelloJpaApplication implements CommandLineRunner {
     public void run(String... strings) throws Exception {
         Book bookA = new Book("BookA");
 
-        Publisher publisherA = new Publisher("Publisher A");
+        Publisher publisherA = new Publisher("Presentation A");
 
         BookPublisher bookPublisher = new BookPublisher();
         bookPublisher.setBook(bookA);
@@ -50,7 +50,7 @@ public class HelloJpaApplication implements CommandLineRunner {
         System.out.println(bookA.getBookPublishers().size());
 
         // update
-//        bookA.getBookPublishers().remove(bookPublisher);
+//        bookA.getSchedules().remove(bookPublisher);
 //        bookRepository.save(bookA);
 
         // test

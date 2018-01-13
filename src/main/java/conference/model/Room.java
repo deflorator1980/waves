@@ -1,7 +1,9 @@
-package conf.model;
+package conference.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,14 +12,10 @@ import javax.persistence.Id;
 @Entity
 @Data
 @NoArgsConstructor
-public class Role {
+@AllArgsConstructor
+public class Room {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-
+    private int id;
     private String name;
-
-    public Role(String name) {
-        this.name = name;
-    }
 }

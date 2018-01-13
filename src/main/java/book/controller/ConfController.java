@@ -17,7 +17,6 @@ import java.util.Set;
 @RestController
 public class ConfController {
 
-
     @Autowired
     private BookRepository bookRepository;
 
@@ -27,7 +26,7 @@ public class ConfController {
     @RequestMapping("/books")
     public ResponseEntity<?> showBooks() {
         Set<BookPublisher> bookPublishers = new HashSet<>();
-//        bookPublishers.addAll(bookRepository.findOne(1).getBookPublishers());
+//        schedules.addAll(bookRepository.findOne(1).getSchedules());
         bookPublishers.addAll(bookRepository.findBookByName("BookA").getBookPublishers());
 
         return new ResponseEntity<Object>(bookPublishers, HttpStatus.OK);

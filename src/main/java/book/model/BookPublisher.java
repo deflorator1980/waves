@@ -55,10 +55,10 @@ public class BookPublisher implements Serializable{
 
 //    @Override
 //    public String toString() {
-//        return "BookPublisher{" +
+//        return "Schedule{" +
 //                "book=" + book +
 //                ", publisher=" + publisher +
-//                ", publishedDate=" + publishedDate +
+//                ", date=" + date +
 //                '}';
 //    }
 }
