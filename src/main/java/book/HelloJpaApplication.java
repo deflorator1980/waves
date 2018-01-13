@@ -49,7 +49,7 @@ public class HelloJpaApplication implements CommandLineRunner {
         publisherRepository.save(publisherA);
         bookRepository.save(bookA);
 
-        System.out.println(bookPublisherRepository.findAll());
+        System.out.println("BPR: " + bookPublisherRepository.findAll());
 
         // test
         System.out.println(bookA.getBookPublishers().size());

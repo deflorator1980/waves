@@ -1,5 +1,6 @@
 package book.controller;
 
+import book.repository.BookPublisherRepository;
 import book.repository.BookRepository;
 import book.repository.PublisherRepository;
 import conf.repos.PresentationRepository;
@@ -36,25 +37,8 @@ public class ConfController {
     @Autowired
     private PublisherRepository publisherRepository;
 
-//    @RequestMapping("/users")
-//    public ResponseEntity<?> showUsers() {
-//        return new ResponseEntity<Object>(userRepository.findAll(), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping("/rooms")
-//    public ResponseEntity<?> showRooms() {
-//        return new ResponseEntity<Object>(roomRepository.findAll(), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping("/roles")
-//    public ResponseEntity<?> showRoles() {
-//        return new ResponseEntity<Object>(roleRepository.findAll(), HttpStatus.OK);
-//    }
-//
-//    @RequestMapping("/presentations")
-//    public ResponseEntity<?> showPresentations() {
-//        return new ResponseEntity<Object>(presentationRepository.findAll(), HttpStatus.OK);
-//    }
+    @Autowired
+    private BookPublisherRepository bookPublisherRepository;
 
     @RequestMapping("/books")
     public ResponseEntity<?> showBooks() {
@@ -64,6 +48,11 @@ public class ConfController {
     @RequestMapping("/publishers")
     public ResponseEntity<?> showPublishers() {
         return new ResponseEntity<Object>(publisherRepository.findAll(), HttpStatus.OK);
+    }
+
+    @RequestMapping("/bp")
+    public ResponseEntity<?> showBP() {
+        return new ResponseEntity<Object>(bookPublisherRepository.findAll(), HttpStatus.OK);
     }
 
 }
