@@ -49,6 +49,7 @@ public class App implements CommandLineRunner {
 
         Presentation presentationA = new Presentation("PresentationOne");
         Presentation presentationB = new Presentation("PresentationTwo");
+        Presentation presentationC = new Presentation("PresentationFour");
 
         Schedule schedule = new Schedule();
         schedule.setUser(userA);
@@ -73,6 +74,7 @@ public class App implements CommandLineRunner {
 
         presentationRepository.save(presentationA);
         presentationRepository.save(presentationB);
+        presentationRepository.save(presentationC);
         userRepository.save(userA);
         userRepository.save(userB);
 //        roomRepository.save(new Room("One"));

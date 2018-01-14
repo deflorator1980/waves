@@ -56,9 +56,9 @@ public class ConfController {
 
     @RequestMapping("/user_presentations")
     public ResponseEntity<?> showUserPresentations() {
-        int userId = 3;
-        List<ScheduleRest> scheduleRestList = new ArrayList<>();
-        List<Schedule> schedules = new ArrayList<>();
+        int userId = 4;
+        Set<ScheduleRest> scheduleRestList = new HashSet<>();
+        Set<Schedule> schedules = new HashSet<>();
         schedules.addAll(userRepository.findOne(userId).getSchedules());
 
         for (Schedule schedule : schedules) {
@@ -71,6 +71,31 @@ public class ConfController {
         }
 
         return new ResponseEntity<Object>(scheduleRestList, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
+    public ResponseEntity<?> crudUserPresentations(@RequestBody List<ScheduleRest> scheduleRestList) {
+        int userId = 4;
+        List<Schedule> schedules = new ArrayList<>(userRepository.findOne(userId).getSchedules());
+        Set<Schedule> schedulesUpdated = new HashSet<>();
+        User user = userRepository.findOne(userId);
+
+        for (int i = 0; i < scheduleRestList.size(); i++ ) {
+            Schedule schedule = new Schedule();
+            ScheduleRest scheduleRest = new ScheduleRest();
+            scheduleRest = scheduleRestList.get(i);
+            schedule = schedules.get(i);
+            schedule.setPresentation(presentationRepository.findPresentationByName(scheduleRest.getPresentationName()));
+            schedule.setRoom(roomRepository.findRoomByName(scheduleRest.getRoomName()).getId());
+            schedule.setUser(userRepository.findUserByName(scheduleRest.getUserName()));
+            schedule.setDate(scheduleRest.getPresentationDate());
+            schedulesUpdated.add(schedule);
+            //todo test PresentationRepo
+        }
+        user.setSchedules(schedulesUpdated);
+        userRepository.save(user);
+        return new ResponseEntity<Object>(schedulesUpdated, HttpStatus.OK);
+//        update schedule set date=?, room=? where user_id=? and presentation_id=?
     }
 
     @RequestMapping("/presentations")
@@ -96,7 +121,7 @@ public class ConfController {
     public ResponseEntity<?> updateUsers(@RequestBody List<UserRest> userRestList) {
         for (UserRest userRest : userRestList) {
             User user = userRepository.findOne(userRest.getId());
-            int roleId = roleRepository.findRoleByName("Administrator").getId();
+            int roleId = roleRepository.findRoleByName(userRest.getRole()).getId();
             user.setRole(roleId);
             user.setName(userRest.getName());
             userRepository.save(user);
@@ -108,7 +133,7 @@ public class ConfController {
     public ResponseEntity<?> deleteUser(@RequestBody UserRest userRest) {
         if (userRepository.findOne(userRest.getId()) == null) {
             userRest.setRole("NOT FOUND");
-            return new ResponseEntity<Object>(userRest, HttpStatus.OK);
+            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND);
         }
         userRepository.delete(userRest.getId());
         userRest.setRole("DELETED");
