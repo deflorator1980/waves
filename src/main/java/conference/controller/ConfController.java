@@ -56,8 +56,8 @@ public class ConfController {
 
     @RequestMapping("/user_presentations")
     public ResponseEntity<?> showUserPresentations() {
-//        int userId = 4;  // Postgres
-        int userId = 1;  // H2
+        int userId = 4;  // Postgres
+//        int userId = 1;  // H2     todo
         Set<ScheduleRest> scheduleRestList = new HashSet<>();
         Set<Schedule> schedules = new HashSet<>();
         schedules.addAll(userRepository.findOne(userId).getSchedules());
@@ -76,7 +76,8 @@ public class ConfController {
 
     @RequestMapping(value = "/user_presentation", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUserPresentation(@RequestBody Presentation presentation) {
-        int userId = 1;
+//        int userId = 1;     //H2
+        int userId = 4;     //Postgres todo
         Schedule scheduleDel = new Schedule();
         User user = userRepository.findOne(userId);
         Set<Schedule> scheduleSet = user.getSchedules();
@@ -86,15 +87,53 @@ public class ConfController {
                 scheduleDel = schedule;
             }
         }
+        if(scheduleDel.getUser() == null) {
+            return new ResponseEntity<Object>(new Role(1, "NOT FOUTND"), HttpStatus.NOT_FOUND);
+        }
         scheduleSet.remove(scheduleDel);
         userRepository.save(user);
         return new ResponseEntity<Object>(scheduleSet, HttpStatus.OK);
     }
 
+    /**
+     * изменение времени, места доклада в расписании
+     *
+     * update schedule set date=?, room=? where user_id=? and presentation_id=?
+     * @param scheduleRestList
+     * @return
+     */
+    @RequestMapping(value = "/user_presentations", method = RequestMethod.PUT)
+    public ResponseEntity<?> updateUserPresentations(@RequestBody List<ScheduleRest> scheduleRestList) {
+        int userId = 4;  // Postgres
+//        int userId = 1;   //H2  todo
+        User user = userRepository.findOne(userId);
+        Set<Schedule> schedulesSet = user.getSchedules();
+        Set<Schedule> schedulesUpdatedSet = new HashSet<>();
+        List<Presentation> presentationList = new ArrayList<>();
+
+        for (Schedule schedule : schedulesSet) {
+            for( ScheduleRest scheduleRest : scheduleRestList) {
+                Presentation presentation = new Presentation();
+                presentation = presentationRepository.findPresentationByName(scheduleRest.getPresentationName());
+                if (schedule.getPresentation().getId() == presentation.getId()) {
+                    schedule.setDate(scheduleRest.getPresentationDate());
+                    schedule.setRoom(roomRepository.findRoomByName(scheduleRest.getRoomName()).getId());
+                    schedulesUpdatedSet.add(schedule);
+                }
+            }
+        }
+        schedulesSet.removeAll(schedulesUpdatedSet);
+        schedulesSet.addAll(schedulesUpdatedSet);
+        userRepository.save(user);
+        return new ResponseEntity<Object>(schedulesUpdatedSet, HttpStatus.OK);
+
+    }
+
+
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
-//        int userId = 4;
-        int userId = 1;
+        int userId = 4;    // Postgres todo
+//        int userId = 1;    // H2
         User user = userRepository.findOne(userId);
 
         Presentation presentation = new Presentation(scheduleRest.getPresentationName());
@@ -111,40 +150,6 @@ public class ConfController {
 //        userRepository.save(userRepository.findOne(2));    // not this user junky Hibernate
 
         return new ResponseEntity<Object>(userRepository.findOne(user.getId()), HttpStatus.OK);
-    }
-
-    /**
-     * изменение времени, места доклада в расписании
-     *
-     * @param scheduleRestList
-     * @return
-     */
-    @RequestMapping(value = "/user_presentations", method = RequestMethod.PUT)
-    public ResponseEntity<?> updateUserPresentations(@RequestBody List<ScheduleRest> scheduleRestList) {
-//        int userId = 4;  // Postgres
-        int userId = 1;   //H2
-        List<Schedule> schedules = new ArrayList<>(userRepository.findOne(userId).getSchedules());
-        Set<Schedule> schedulesUpdated = new HashSet<>();
-        User user = userRepository.findOne(userId);
-
-        for (int i = 0; i < scheduleRestList.size(); i++) {
-            Schedule schedule = new Schedule();
-            ScheduleRest scheduleRest = new ScheduleRest();
-            scheduleRest = scheduleRestList.get(i);
-            schedule = schedules.get(i);
-            schedule.setPresentation(presentationRepository.findPresentationByName(scheduleRest.getPresentationName()));
-            schedule.setRoom(roomRepository.findRoomByName(scheduleRest.getRoomName()).getId());
-            schedule.setUser(userRepository.findUserByName(scheduleRest.getUserName()));
-            schedule.setDate(scheduleRest.getPresentationDate());
-            schedulesUpdated.add(schedule);
-            //todo test PresentationRepo
-            //created 201
-        }
-        user.setSchedules(schedulesUpdated);
-        userRepository.save(user);
-        return new ResponseEntity<Object>(schedulesUpdated, HttpStatus.OK);
-
-//        update schedule set date=?, room=? where user_id=? and presentation_id=?
     }
 
     @RequestMapping("/presentations")
