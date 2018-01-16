@@ -74,6 +74,23 @@ public class ConfController {
         return new ResponseEntity<Object>(scheduleRestList, HttpStatus.OK);
     }
 
+    @RequestMapping(value = "/user_presentation", method = RequestMethod.DELETE)
+    public ResponseEntity<?> deleteUserPresentation(@RequestBody Presentation presentation) {
+        int userId = 1;
+        Schedule scheduleDel = new Schedule();
+        User user = userRepository.findOne(userId);
+        Set<Schedule> scheduleSet = user.getSchedules();
+        System.out.println(scheduleSet);
+        for (Schedule schedule : scheduleSet) {
+            if(schedule.getPresentation().getId() == presentation.getId()){
+                scheduleDel = schedule;
+            }
+        }
+        scheduleSet.remove(scheduleDel);
+        userRepository.save(user);
+        return new ResponseEntity<Object>(scheduleSet, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
 //        int userId = 4;
