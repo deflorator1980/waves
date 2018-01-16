@@ -1,0 +1,276 @@
+{
+	"info": {
+		"name": "waves",
+		"_postman_id": "2a660767-e811-e19b-253e-01b25c319757",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/users",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/presentations",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"User1\",\n    \"presentationName\": \"PresentationThree\",\n    \"presentationDate\": 1516014262590,\n    \"roomName\": \"Two\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"presentations"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/users",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n {\n   \"id\": 5,\n   \"name\": \"User5\",\n   \"role\": \"Administrator\"\n },\n {\n   \"id\": 4,\n    \"name\": \"User4\",\n    \"role\": \"Administrator\"\n }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": "ds"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/signup",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Listener\",\n  \"passwd\": \"a\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/signup",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"signup"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/users",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 5,\n    \"name\": \"Listener\",\n    \"role\": \"Listener\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"users"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/user_presentations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/user_presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user_presentations"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/user_presentations",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n        \"userName\": \"User1\",\n        \"presentationName\": \"PresentationTwo\",\n        \"presentationDate\": 1516014262999,\n        \"roomName\": \"Two\"\n    },\n    {\n        \"userName\": \"User1\",\n        \"presentationName\": \"PresentationOne\",\n        \"presentationDate\": 1516014262999,\n        \"roomName\": \"One\"\n    }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/user_presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user_presentations"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/user_presentations",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"userName\": \"User1\",\n    \"presentationName\": \"PresentationFour\",\n    \"presentationDate\": 1516014262590,\n    \"roomName\": \"Two\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/user_presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user_presentations"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/schedule",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/schedule",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"schedule"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/user_presentation",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": 1,\n    \"name\": \"PresentationOne\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/user_presentation",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user_presentation"
+					]
+				},
+				"description": null
+			},
+			"response": []
+		}
+	]
+}

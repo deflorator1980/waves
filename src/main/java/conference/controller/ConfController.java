@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @RestController
 public class ConfController {
@@ -33,7 +34,6 @@ public class ConfController {
     @RequestMapping("/schedule")
     public ResponseEntity<?> showSchedule() {
         List<ScheduleRest> scheduleRestList = new ArrayList<>();
-//        ScheduleRest scheduleRest = new ScheduleRest();
 
         List<Schedule> schedules = new ArrayList<>();
         List<User> users = (List<User>) userRepository.findAll();
@@ -59,8 +59,7 @@ public class ConfController {
         int userId = 4;  // Postgres
 //        int userId = 1;  // H2     todo
         Set<ScheduleRest> scheduleRestList = new HashSet<>();
-        Set<Schedule> schedules = new HashSet<>();
-        schedules.addAll(userRepository.findOne(userId).getSchedules());
+        Set<Schedule> schedules = userRepository.findOne(userId).getSchedules();
 
         for (Schedule schedule : schedules) {
             ScheduleRest scheduleRest = new ScheduleRest();
@@ -92,7 +91,7 @@ public class ConfController {
         }
         scheduleSet.remove(scheduleDel);
         userRepository.save(user);
-        return new ResponseEntity<Object>(scheduleSet, HttpStatus.OK);
+        return new ResponseEntity<Object>(presentation, HttpStatus.OK);
     }
 
     /**
@@ -111,25 +110,41 @@ public class ConfController {
         Set<Schedule> schedulesUpdatedSet = new HashSet<>();
         List<Presentation> presentationList = new ArrayList<>();
 
+        AtomicInteger counter = new AtomicInteger(scheduleRestList.size());
         for (Schedule schedule : schedulesSet) {
             for( ScheduleRest scheduleRest : scheduleRestList) {
-                Presentation presentation = new Presentation();
-                presentation = presentationRepository.findPresentationByName(scheduleRest.getPresentationName());
+                Presentation presentation = presentationRepository.findPresentationByName(scheduleRest.getPresentationName());
+                if (presentation == null) {
+                    return new ResponseEntity<Object>(new Role(0, "Presentation doesn't exist"), HttpStatus.NOT_FOUND);
+                }
                 if (schedule.getPresentation().getId() == presentation.getId()) {
                     schedule.setDate(scheduleRest.getPresentationDate());
-                    schedule.setRoom(roomRepository.findRoomByName(scheduleRest.getRoomName()).getId());
+                    Room room = roomRepository.findRoomByName(scheduleRest.getRoomName());
+                    if (room == null) {
+                        return new ResponseEntity<Object>(new Role(0, "Room doesn't exist"), HttpStatus.NOT_FOUND);
+                    }
+                    schedule.setRoom(room.getId());
                     schedulesUpdatedSet.add(schedule);
+                    counter.decrementAndGet();
                 }
             }
+        }
+        if (counter.get() != 0) {
+            return new ResponseEntity<Object>(new UserRest(0, "Presentation doesn't exist for user", user.getName()), HttpStatus.NOT_FOUND);
         }
         schedulesSet.removeAll(schedulesUpdatedSet);
         schedulesSet.addAll(schedulesUpdatedSet);
         userRepository.save(user);
-        return new ResponseEntity<Object>(schedulesUpdatedSet, HttpStatus.OK);
+        return new ResponseEntity<Object>(scheduleRestList, HttpStatus.OK);
 
     }
 
-
+    /**
+     * добавляет новую презентацию
+     *
+     * @param scheduleRest
+     * @return
+     */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
         int userId = 4;    // Postgres todo
@@ -140,16 +155,19 @@ public class ConfController {
 
         Schedule scheduleN = new Schedule();
         scheduleN.setUser(user);
-//        scheduleN.setPresentation(presentationRepository.findOne(3));
         scheduleN.setPresentation(presentation);
         scheduleN.setDate(scheduleRest.getPresentationDate());
-        scheduleN.setRoom(roomRepository.findRoomByName(scheduleRest.getRoomName()).getId());
+        Room room = roomRepository.findRoomByName(scheduleRest.getRoomName());
+        if (room == null) {
+            return new ResponseEntity<Object>(new Role(0, "Room doesn't exist"), HttpStatus.NOT_FOUND);
+        }
+        scheduleN.setRoom(room.getId());
         user.getSchedules().add(scheduleN);
-
+        //todo schedule already exist
         presentationRepository.save(presentation);
 //        userRepository.save(userRepository.findOne(2));    // not this user junky Hibernate
 
-        return new ResponseEntity<Object>(userRepository.findOne(user.getId()), HttpStatus.OK);
+        return new ResponseEntity<Object>(scheduleRest, HttpStatus.OK);
     }
 
     @RequestMapping("/presentations")
@@ -168,14 +186,26 @@ public class ConfController {
             userRestList.add(userRest);
         }
         return new ResponseEntity<Object>(userRestList, HttpStatus.OK);
-//        return new ResponseEntity<Object>(userRepository.findAll(), HttpStatus.OK);
     }
 
+    /**
+     * изменяет роли и имена пользователей
+     *
+      * @param userRestList
+     * @return
+     */
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<?> updateUsers(@RequestBody List<UserRest> userRestList) {
         for (UserRest userRest : userRestList) {
             User user = userRepository.findOne(userRest.getId());
-            int roleId = roleRepository.findRoleByName(userRest.getRole()).getId();
+            if (user == null) {
+                return new ResponseEntity<Object>(new Role(0, "USER DOESN'T EXISTS"), HttpStatus.NOT_FOUND);
+            }
+            Role role = roleRepository.findRoleByName(userRest.getRole());
+            if (role == null) {
+                return new ResponseEntity<Object>(new Role(0, "ROLE DOESN'T EXISTS"), HttpStatus.NOT_FOUND);
+            }
+            int roleId = role.getId();
             user.setRole(roleId);
             user.setName(userRest.getName());
             userRepository.save(user);
@@ -187,7 +217,7 @@ public class ConfController {
     public ResponseEntity<?> deleteUser(@RequestBody UserRest userRest) {
         if (userRepository.findOne(userRest.getId()) == null) {
             userRest.setRole("NOT FOUND");
-            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND); //todo set by all excetpions
         }
         userRepository.delete(userRest.getId());
         userRest.setRole("DELETED");
