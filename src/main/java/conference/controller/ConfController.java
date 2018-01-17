@@ -5,6 +5,7 @@ import conference.repository.RoleRepository;
 import conference.repository.RoomRepository;
 import conference.repository.UserRepository;
 import conference.repository.PresentationRepository;
+import conference.service.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +33,9 @@ public class ConfController {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserServiceImpl userService;
 
     @RequestMapping("/schedule")
     public ResponseEntity<?> showSchedule() {
@@ -244,7 +248,8 @@ public class ConfController {
         user.setRole(3);
         user.setPasswd(userSignup.getPasswd());
         user.setName(userSignup.getName());
-        userRepository.save(user);
+//        userRepository.save(user);
+        userService.saveUser(user);
         userSignup.setPasswd("OK");
         return new ResponseEntity<Object>(userSignup, HttpStatus.OK);
     }
