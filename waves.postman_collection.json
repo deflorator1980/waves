@@ -68,7 +68,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n {\n   \"id\": 5,\n   \"name\": \"User5\",\n   \"role\": \"Administrator\"\n },\n {\n   \"id\": 4,\n    \"name\": \"User4\",\n    \"role\": \"Administrator\"\n }\n]"
+					"raw": "[\n {\n   \"id\": 1,\n   \"name\": \"User1\",\n   \"role\": \"Administrator\"\n },\n {\n   \"id\": 2,\n    \"name\": \"User1\",\n    \"role\": \"Administrator\"\n }\n]"
 				},
 				"url": {
 					"raw": "http://localhost:8080/users",
@@ -126,7 +126,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 5,\n    \"name\": \"Listener\",\n    \"role\": \"Listener\"\n}"
+					"raw": "{\n    \"id\": 3,\n    \"name\": \"Listener\",\n    \"role\": \"Listener\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/users",
@@ -239,7 +239,7 @@
 						"schedule"
 					]
 				},
-				"description": null
+				"description": ""
 			},
 			"response": []
 		},

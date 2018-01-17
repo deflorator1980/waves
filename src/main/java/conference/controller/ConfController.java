@@ -56,8 +56,8 @@ public class ConfController {
 
     @RequestMapping("/user_presentations")
     public ResponseEntity<?> showUserPresentations() {
-        int userId = 4;  // Postgres
-//        int userId = 1;  // H2     todo
+//        int userId = 4;  // Postgres
+        int userId = 1;  // H2     todo
         Set<ScheduleRest> scheduleRestList = new HashSet<>();
         Set<Schedule> schedules = userRepository.findOne(userId).getSchedules();
 
@@ -75,8 +75,8 @@ public class ConfController {
 
     @RequestMapping(value = "/user_presentation", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUserPresentation(@RequestBody Presentation presentation) {
-//        int userId = 1;     //H2
-        int userId = 4;     //Postgres todo
+        int userId = 1;     //H2
+//        int userId = 4;     //Postgres todo
         Schedule scheduleDel = new Schedule();
         User user = userRepository.findOne(userId);
         Set<Schedule> scheduleSet = user.getSchedules();
@@ -103,8 +103,8 @@ public class ConfController {
      */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUserPresentations(@RequestBody List<ScheduleRest> scheduleRestList) {
-        int userId = 4;  // Postgres
-//        int userId = 1;   //H2  todo
+//        int userId = 4;  // Postgres
+        int userId = 1;   //H2  todo
         User user = userRepository.findOne(userId);
         Set<Schedule> schedulesSet = user.getSchedules();
         Set<Schedule> schedulesUpdatedSet = new HashSet<>();
@@ -147,8 +147,8 @@ public class ConfController {
      */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
-        int userId = 4;    // Postgres todo
-//        int userId = 1;    // H2
+//        int userId = 4;    // Postgres todo
+        int userId = 1;    // H2
         User user = userRepository.findOne(userId);
 
         Presentation presentation = new Presentation(scheduleRest.getPresentationName());
