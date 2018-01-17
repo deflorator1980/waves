@@ -176,7 +176,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n    {\n        \"userName\": \"User1\",\n        \"presentationName\": \"PresentationTwo\",\n        \"presentationDate\": 1516014262999,\n        \"roomName\": \"Two\"\n    },\n    {\n        \"userName\": \"User1\",\n        \"presentationName\": \"PresentationOne\",\n        \"presentationDate\": 1516014262999,\n        \"roomName\": \"One\"\n    }\n]"
+					"raw": "[\n  {\n    \"userName\": \"UserA\",\n    \"presentationName\": \"PresentationTwo\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"Two\"\n  },\n  {\n    \"userName\": \"UserB\",\n    \"presentationName\": \"PresentationOne\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"One\"\n  }\n]"
 				},
 				"url": {
 					"raw": "http://localhost:8080/user_presentations",
@@ -269,6 +269,123 @@
 					]
 				},
 				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/logout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/logout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"logout"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login?username=admin&password=a",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/login?username=admin&password=a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "admin",
+							"equals": true
+						},
+						{
+							"key": "password",
+							"value": "a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login?username=UserA&password=a",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/login?username=UserA&password=a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "UserA",
+							"equals": true
+						},
+						{
+							"key": "password",
+							"value": "a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login?username=UserB&password=a",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/login?username=UserB&password=a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "UserB",
+							"equals": true
+						},
+						{
+							"key": "password",
+							"value": "a",
+							"equals": true
+						}
+					]
+				},
+				"description": ""
 			},
 			"response": []
 		}

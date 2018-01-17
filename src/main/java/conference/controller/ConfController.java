@@ -8,6 +8,8 @@ import conference.repository.PresentationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,8 +58,12 @@ public class ConfController {
 
     @RequestMapping("/user_presentations")
     public ResponseEntity<?> showUserPresentations() {
-//        int userId = 4;  // Postgres
-        int userId = 1;  // H2     todo
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = userDetails.getUsername();
+        System.out.println(name);
+        User user = userRepository.findUserByName(name);
+        int userId = user.getId();
+
         Set<ScheduleRest> scheduleRestList = new HashSet<>();
         Set<Schedule> schedules = userRepository.findOne(userId).getSchedules();
 
@@ -75,10 +81,11 @@ public class ConfController {
 
     @RequestMapping(value = "/user_presentation", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUserPresentation(@RequestBody Presentation presentation) {
-        int userId = 1;     //H2
-//        int userId = 4;     //Postgres todo
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = userDetails.getUsername();
+        System.out.println(name);
+        User user = userRepository.findUserByName(name);
         Schedule scheduleDel = new Schedule();
-        User user = userRepository.findOne(userId);
         Set<Schedule> scheduleSet = user.getSchedules();
         System.out.println(scheduleSet);
         for (Schedule schedule : scheduleSet) {
@@ -103,9 +110,10 @@ public class ConfController {
      */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.PUT)
     public ResponseEntity<?> updateUserPresentations(@RequestBody List<ScheduleRest> scheduleRestList) {
-//        int userId = 4;  // Postgres
-        int userId = 1;   //H2  todo
-        User user = userRepository.findOne(userId);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = userDetails.getUsername();
+        System.out.println(name);
+        User user = userRepository.findUserByName(name);
         Set<Schedule> schedulesSet = user.getSchedules();
         Set<Schedule> schedulesUpdatedSet = new HashSet<>();
         List<Presentation> presentationList = new ArrayList<>();
@@ -132,11 +140,9 @@ public class ConfController {
         if (counter.get() != 0) {
             return new ResponseEntity<Object>(new UserRest(0, "Presentation doesn't exist for user", user.getName()), HttpStatus.NOT_FOUND);
         }
-        schedulesSet.removeAll(schedulesUpdatedSet);
-        schedulesSet.addAll(schedulesUpdatedSet);
         userRepository.save(user);
         return new ResponseEntity<Object>(scheduleRestList, HttpStatus.OK);
-
+//todo return valid JSON
     }
 
     /**
@@ -147,9 +153,10 @@ public class ConfController {
      */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
-//        int userId = 4;    // Postgres todo
-        int userId = 1;    // H2
-        User user = userRepository.findOne(userId);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = userDetails.getUsername();
+        System.out.println(name);
+        User user = userRepository.findUserByName(name);
 
         Presentation presentation = new Presentation(scheduleRest.getPresentationName());
 
@@ -172,6 +179,9 @@ public class ConfController {
 
     @RequestMapping("/presentations")
     public ResponseEntity<?> showPublishers() {
+        UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name = userDetails.getUsername();
+        System.out.println(name);
         return new ResponseEntity<Object>(presentationRepository.findAll(), HttpStatus.OK);
     }
 
@@ -217,7 +227,7 @@ public class ConfController {
     public ResponseEntity<?> deleteUser(@RequestBody UserRest userRest) {
         if (userRepository.findOne(userRest.getId()) == null) {
             userRest.setRole("NOT FOUND");
-            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND); //todo set by all excetpions
+            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND); //todo set by all excetpions userRest
         }
         userRepository.delete(userRest.getId());
         userRest.setRole("DELETED");
@@ -237,6 +247,11 @@ public class ConfController {
         userRepository.save(user);
         userSignup.setPasswd("OK");
         return new ResponseEntity<Object>(userSignup, HttpStatus.OK);
+    }
+
+    @RequestMapping("/")
+    public ResponseEntity<?> welcome() {
+        return new ResponseEntity<Object>(new Role(1, "WELCOME"), HttpStatus.OK);
     }
 
 }

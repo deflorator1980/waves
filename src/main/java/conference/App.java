@@ -47,10 +47,6 @@ public class App implements CommandLineRunner {
         userB.setPasswd("b");
         userB.setRole(2);
 
-//        User userC = new User("UserC");
-//        userC.setPasswd("c");
-//        userC.setRole(2);
-
         Presentation presentationA = new Presentation("PresentationOne");
         Presentation presentationB = new Presentation("PresentationTwo");
         Presentation presentationC = new Presentation("PresentationThree");
@@ -83,39 +79,6 @@ public class App implements CommandLineRunner {
         schedule3.setRoom(4);
         userB.getSchedules().add(schedule3);
 
-//********************
-//        Schedule schedule4 = new Schedule();
-//        schedule4.setUser(userB);
-//        schedule4.setPresentation(presentationB);
-//        schedule4.setDate(new Date());
-//        schedule4.setRoom(2);
-//        userB.getSchedules().add(schedule4);
-//**********************
-
-
-//        Schedule schedule4 = new Schedule();
-//        schedule4.setUser(userB);
-//        schedule4.setPresentation(presentationB);
-//        schedule4.setDate(new Date());
-//        schedule4.setRoom(2);
-//        userB.getSchedules().add(schedule4);
-
-//        userRepository.save(userB);
-
-//        userRepository.save(userC);
-//        roomRepository.save(new Room("One"));
-//        roomRepository.save(new Room("Two"));
-
-
-//        Schedule scheduleN = new Schedule();
-//        scheduleN.setUser(userA);
-////        scheduleN.setPresentation(presentationRepository.findOne(6));
-//        scheduleN.setPresentation(presentationC);
-//        scheduleN.setDate(new Date());
-//        scheduleN.setRoom(1);
-//        userA.getSchedules().add(scheduleN);
-//        userRepository.save(userA);
-
         roomRepository.save(new Room(1, "One"));
         roomRepository.save(new Room(2, "Two"));
         roomRepository.save(new Room(4, "Four"));
@@ -129,14 +92,6 @@ public class App implements CommandLineRunner {
         presentationRepository.save(presentationC);
         userRepository.save(userA);
         userRepository.save(userB);
-
-
-/**
- * test
- */
-//        User user = userRepository.findOne(4);
-//        Presentation presentation = new Presentation("FromApp");
-
 
     }
 }
