@@ -33,9 +33,7 @@ public class UserServiceImpl implements UserDetailsService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public void saveUser(User user) {
-//        user.setPasswd(bCryptPasswordEncoder.encode(user.getPasswd()));
-        String pass = bCryptPasswordEncoder.encode(user.getPasswd());
-        user.setPasswd(pass);
+        user.setPasswd(bCryptPasswordEncoder.encode(user.getPasswd()));
         userRepository.save(user);
     }
 

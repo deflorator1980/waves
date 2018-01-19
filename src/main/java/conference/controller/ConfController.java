@@ -162,6 +162,8 @@ public class ConfController {
         System.out.println(name);
         User user = userRepository.findUserByName(name);
 
+        System.out.println(user.getRole());
+
         Presentation presentation = new Presentation(scheduleRest.getPresentationName());
 
         Schedule scheduleN = new Schedule();
