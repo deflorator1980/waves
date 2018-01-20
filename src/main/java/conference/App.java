@@ -49,11 +49,15 @@ public class App implements CommandLineRunner {
 //        String pass = userService.getPasswd("a");
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userA.setPasswd(bCryptPasswordEncoder.encode("a"));
-        userA.setRole(1);
+        userA.setRole(2);
 
         User userB = new User("UserB");
         userB.setPasswd(bCryptPasswordEncoder.encode("b"));
         userB.setRole(2);
+
+        User admin = new User("Administrator");
+        admin.setPasswd(bCryptPasswordEncoder.encode("a"));
+        admin.setRole(1);
 
         Presentation presentationA = new Presentation("PresentationOne");
         Presentation presentationB = new Presentation("PresentationTwo");
@@ -100,6 +104,7 @@ public class App implements CommandLineRunner {
         presentationRepository.save(presentationC);
         userRepository.save(userA);  //todo saveUser
         userRepository.save(userB);
+        userRepository.save(admin);
 
     }
 }
