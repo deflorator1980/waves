@@ -102,7 +102,7 @@ public class App implements CommandLineRunner {
         presentationRepository.save(presentationA);
         presentationRepository.save(presentationB);
         presentationRepository.save(presentationC);
-        userRepository.save(userA);  //todo saveUser
+        userRepository.save(userA);
         userRepository.save(userB);
         userRepository.save(admin);
 

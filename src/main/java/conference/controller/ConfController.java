@@ -213,7 +213,8 @@ public class ConfController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<?> updateUsers(@RequestBody List<UserRest> userRestList) {
         for (UserRest userRest : userRestList) {
-            User user = userRepository.findOne(userRest.getId());
+//            User user = userRepository.findOne(userRest.getId());
+            User user = userRepository.findUserByName(userRest.getName()); //todo do not rename them!
             if (user == null) {
                 return new ResponseEntity<Object>(new Role(0, "USER DOESN'T EXISTS"), HttpStatus.NOT_FOUND);
             }
@@ -256,9 +257,9 @@ public class ConfController {
         return new ResponseEntity<Object>(userSignup, HttpStatus.OK);
     }
 
-    @RequestMapping("/")
-    public ResponseEntity<?> welcome() {
-        return new ResponseEntity<Object>(new Role(1, "WELCOME"), HttpStatus.OK);
-    }
+//    @RequestMapping("/")
+//    public ResponseEntity<?> welcome() {
+//        return new ResponseEntity<Object>(new Role(1, "WELCOME"), HttpStatus.OK);
+//    }
 
 }
