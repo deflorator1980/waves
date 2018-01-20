@@ -28,35 +28,6 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/presentations",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n    \"userName\": \"User1\",\n    \"presentationName\": \"PresentationThree\",\n    \"presentationDate\": 1516014262590,\n    \"roomName\": \"Two\"\n}\n"
-				},
-				"url": {
-					"raw": "http://localhost:8080/presentations",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"presentations"
-					]
-				},
-				"description": null
-			},
-			"response": []
-		},
-		{
 			"name": "http://localhost:8080/users",
 			"request": {
 				"method": "POST",
@@ -68,7 +39,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n {\n   \"id\": 1,\n   \"name\": \"User1\",\n   \"role\": \"Administrator\"\n },\n {\n   \"id\": 2,\n    \"name\": \"User1\",\n    \"role\": \"Administrator\"\n }\n]"
+					"raw": "[\n {\n   \"name\": \"UserA\",\n   \"role\": \"Administrator\"\n },\n {\n    \"name\": \"UserB\",\n    \"role\": \"Listener\"\n }\n]"
 				},
 				"url": {
 					"raw": "http://localhost:8080/users",
@@ -126,7 +97,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 3,\n    \"name\": \"Listener\",\n    \"role\": \"Listener\"\n}"
+					"raw": "{\n    \"name\": \"UserA\",\n    \"role\": \"Listener\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/users",
@@ -176,7 +147,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n  {\n    \"userName\": \"UserA\",\n    \"presentationName\": \"PresentationTwo\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"Two\"\n  },\n  {\n    \"userName\": \"UserB\",\n    \"presentationName\": \"PresentationOne\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"One\"\n  }\n]"
+					"raw": "[\n  {\n    \"presentationName\": \"PresentationTwo\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"Two\"\n  },\n  {\n    \"presentationName\": \"PresentationOne\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"One\"\n  }\n]"
 				},
 				"url": {
 					"raw": "http://localhost:8080/user_presentations",
@@ -205,7 +176,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"userName\": \"User1\",\n    \"presentationName\": \"PresentationFour\",\n    \"presentationDate\": 1516014262590,\n    \"roomName\": \"Two\"\n}\n"
+					"raw": "{\n    \"presentationName\": \"PresentationFour\",\n    \"presentationDate\": 1516014262590,\n    \"roomName\": \"Two\"\n}\n"
 				},
 				"url": {
 					"raw": "http://localhost:8080/user_presentations",
@@ -239,7 +210,7 @@
 						"schedule"
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
@@ -255,7 +226,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"id\": 1,\n    \"name\": \"PresentationOne\"\n}"
+					"raw": "{\n    \"name\": \"PresentationOne\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/user_presentation",
@@ -289,18 +260,18 @@
 						"logout"
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:8080/login?username=admin&password=a",
+			"name": "localhost:8080/login?username=Administrator&password=a",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:8080/login?username=admin&password=a",
+					"raw": "localhost:8080/login?username=Administrator&password=a",
 					"host": [
 						"localhost"
 					],
@@ -311,7 +282,7 @@
 					"query": [
 						{
 							"key": "username",
-							"value": "admin",
+							"value": "Administrator",
 							"equals": true
 						},
 						{
@@ -321,7 +292,7 @@
 						}
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
@@ -353,18 +324,18 @@
 						}
 					]
 				},
-				"description": ""
+				"description": null
 			},
 			"response": []
 		},
 		{
-			"name": "localhost:8080/login?username=UserB&password=a",
+			"name": "localhost:8080/login?username=UserB&password=b",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "localhost:8080/login?username=UserB&password=a",
+					"raw": "localhost:8080/login?username=UserB&password=b",
 					"host": [
 						"localhost"
 					],
@@ -380,9 +351,59 @@
 						},
 						{
 							"key": "password",
-							"value": "a",
+							"value": "b",
 							"equals": true
 						}
+					]
+				},
+				"description": null
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/hello",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/hello",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"hello"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/user_presentations",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n  {\n    \"presentationName\": \"PresentationThree\",\n    \"presentationDate\": 1516014262999,\n    \"roomName\": \"Three\"\n  }\n]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/user_presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"user_presentations"
 					]
 				},
 				"description": ""

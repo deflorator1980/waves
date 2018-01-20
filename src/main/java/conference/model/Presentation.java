@@ -12,6 +12,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class Presentation {
     @Id
+    @JsonIgnore
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;

@@ -93,6 +93,7 @@ public class App implements CommandLineRunner {
 
         roomRepository.save(new Room(1, "One"));
         roomRepository.save(new Room(2, "Two"));
+        roomRepository.save(new Room(3, "Three"));
         roomRepository.save(new Room(4, "Four"));
 
         roleRepository.save(new Role(1, "Administrator"));

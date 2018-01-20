@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRest {
-    private int id;
+//    private int id;
     private String name;
     private String role;
 }
