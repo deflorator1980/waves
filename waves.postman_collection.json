@@ -68,7 +68,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"name\": \"Listener\",\n  \"passwd\": \"a\"\n}"
+					"raw": "{\n  \"name\": \"UserNew\",\n  \"passwd\": \"a\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/signup",
@@ -404,6 +404,38 @@
 					"port": "8080",
 					"path": [
 						"user_presentations"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:8080/login?username=Listener&password=a",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "localhost:8080/login?username=Listener&password=a",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"login"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "Listener",
+							"equals": true
+						},
+						{
+							"key": "password",
+							"value": "a",
+							"equals": true
+						}
 					]
 				},
 				"description": ""

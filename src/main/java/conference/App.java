@@ -34,9 +34,6 @@ public class App implements CommandLineRunner {
     @Autowired
     private RoleRepository roleRepository;
 
-//    @Autowired
-//    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
     }

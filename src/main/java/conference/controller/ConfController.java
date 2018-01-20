@@ -144,7 +144,6 @@ public class ConfController {
         }
         userRepository.save(user);
         return new ResponseEntity<Object>(scheduleRestList, HttpStatus.OK);
-//todo return valid JSON
     }
 
     /**
@@ -213,7 +212,7 @@ public class ConfController {
     public ResponseEntity<?> updateUsers(@RequestBody List<UserRest> userRestList) {
         for (UserRest userRest : userRestList) {
 //            User user = userRepository.findOne(userRest.getId());
-            User user = userRepository.findUserByName(userRest.getName()); //todo do not rename them!
+            User user = userRepository.findUserByName(userRest.getName());
             if (user == null) {
                 return new ResponseEntity<Object>(new Role(0, "USER DOESN'T EXISTS"), HttpStatus.NOT_FOUND);
             }
@@ -231,13 +230,11 @@ public class ConfController {
 
     @RequestMapping(value = "/users", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteUser(@RequestBody UserRest userRest) {
-//        if (userRepository.findOne(userRest.getId()) == null) {
         User user = userRepository.findUserByName(userRest.getName());
         if (user == null) {
             userRest.setRole("NOT FOUND");
             return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND); //todo set by all exceptions userRest
         }
-//        userRepository.delete(userRest.getId());
         userRepository.delete(user);
         userRest.setRole("DELETED");
         return new ResponseEntity<Object>(userRest, HttpStatus.OK);
@@ -258,10 +255,5 @@ public class ConfController {
         userSignup.setPasswd("OK");
         return new ResponseEntity<Object>(userSignup, HttpStatus.OK);
     }
-
-//    @RequestMapping("/")
-//    public ResponseEntity<?> welcome() {
-//        return new ResponseEntity<Object>(new Role(1, "WELCOME"), HttpStatus.OK);
-//    }
 
 }

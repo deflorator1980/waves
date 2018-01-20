@@ -22,7 +22,6 @@ import java.util.Set;
 
 @Service("userService")
 public class UserServiceImpl implements UserDetailsService {
-    // todo any @Autowired make private
     @Autowired
     private UserRepository userRepository;
 
