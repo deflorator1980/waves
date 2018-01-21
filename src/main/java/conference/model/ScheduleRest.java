@@ -1,11 +1,14 @@
 package conference.model;
 
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
-@Data
+//@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ScheduleRest extends PresentationRest{
+    @Getter @Setter
     private String userName;
 //    private String presentationName;
 //    private Date presentationDate;

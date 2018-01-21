@@ -37,6 +37,11 @@ public class ConfController {
     @Autowired
     private UserServiceImpl userService;
 
+    @RequestMapping("/greeting")
+    public ResponseEntity<?> greeting() {
+        return new ResponseEntity<Object>(new Role(1, "Hello"), HttpStatus.OK);
+    }
+
     @RequestMapping("/schedule")
     public ResponseEntity<?> showSchedule() {
         List<ScheduleRest> scheduleRestList = new ArrayList<>();
