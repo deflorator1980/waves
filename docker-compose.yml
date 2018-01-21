@@ -4,7 +4,7 @@ services:
   db:
     image: postgres:9.6-alpine
     ports:
-      - 5432:5432
+      - 5422:5432
     environment:
       POSTGRES_PASSWORD: "postgres"
     volumes:
