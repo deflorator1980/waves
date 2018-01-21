@@ -26,7 +26,7 @@ public class UserServiceImpl implements UserDetailsService {
     private UserRepository userRepository;
 
     @Autowired
-    private RoleRepository roleRepository; //todo ManyToMany in user
+    private RoleRepository roleRepository;
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;

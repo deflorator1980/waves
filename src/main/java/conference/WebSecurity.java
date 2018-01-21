@@ -1,6 +1,5 @@
 package conference;
 
-import ch.qos.logback.core.joran.action.ActionConst;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,7 +32,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.
                 authorizeRequests()
-//                .antMatchers("/schedule", "/signup", "/", "/login").permitAll()
                 .antMatchers("/schedule", "/signup", "/greeting").permitAll()
                 .antMatchers( "/user_presentation").hasAuthority("Administrator")
                 .antMatchers( "/user_presentation").hasAuthority("Presenter")
@@ -49,34 +47,6 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
             .logout()
                 .permitAll();
     }
-
-    //    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http.authorizeRequests()
-//                .antMatchers("/schedule", "/signup", "/").permitAll()
-//                .antMatchers( "/user_presentations").access("hasRole('USER')")
-//                .antMatchers("/users").access("hasRole('ADMIN')")
-//                .anyRequest().authenticated()
-//                .and()
-//            .formLogin()
-//                .loginPage("/login")
-//                .permitAll()
-//                .and()
-//                .csrf().disable()
-//            .logout()
-//                .permitAll();
-//    }
-//
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth
-//                .inMemoryAuthentication()
-//                .withUser("UserB").password("a").roles("USER")
-//                .and()
-//                .withUser("UserA").password("a").roles("USER")
-//                .and()
-//                .withUser("admin").password("a").roles("ADMIN");
-//    }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {

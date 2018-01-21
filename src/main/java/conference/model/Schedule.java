@@ -10,7 +10,6 @@ import java.util.Date;
 
 @Entity
 @Table(name = "schedule")
-//@Data
 public class Schedule implements Serializable{
     @Id
     @ManyToOne

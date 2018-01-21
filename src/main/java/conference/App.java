@@ -42,8 +42,6 @@ public class App implements CommandLineRunner {
     @Transactional
     public void run(String... strings) throws Exception {
         User userA = new User("UserA");
-//        UserServiceImpl userService = new UserServiceImpl();
-//        String pass = userService.getPasswd("a");
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         userA.setPasswd(bCryptPasswordEncoder.encode("a"));
         userA.setRole(2);

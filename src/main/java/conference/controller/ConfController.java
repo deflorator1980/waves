@@ -37,11 +37,6 @@ public class ConfController {
     @Autowired
     private UserServiceImpl userService;
 
-    @RequestMapping("/greeting")
-    public ResponseEntity<?> greeting() {
-        return new ResponseEntity<Object>(new Role(1, "Hello"), HttpStatus.OK);
-    }
-
     @RequestMapping("/schedule")
     public ResponseEntity<?> showSchedule() {
         List<ScheduleRest> scheduleRestList = new ArrayList<>();
@@ -159,7 +154,6 @@ public class ConfController {
      */
     @RequestMapping(value = "/user_presentations", method = RequestMethod.POST)
     public ResponseEntity<?> createUserPresentations(@RequestBody ScheduleRest scheduleRest) {
-//    public ResponseEntity<?> createUserPresentations(@RequestBody PresentationRest scheduleRest) {
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String name = userDetails.getUsername();
         System.out.println(name);
@@ -179,9 +173,7 @@ public class ConfController {
         }
         scheduleN.setRoom(room.getId());
         user.getSchedules().add(scheduleN);
-        //todo schedule already exist
         presentationRepository.save(presentation);
-//        userRepository.save(userRepository.findOne(2));    // not this user junky Hibernate
         scheduleRest.setUserName(user.getName());
         return new ResponseEntity<Object>(scheduleRest, HttpStatus.OK);
     }
@@ -199,7 +191,6 @@ public class ConfController {
         List<UserRest> userRestList = new ArrayList<>();
         for (User user : userRepository.findAll()) {
             UserRest userRest = new UserRest();
-//            userRest.setId(user.getId());
             userRest.setName(user.getName());
             userRest.setRole(roleRepository.findOne(user.getRole()).getName());
             userRestList.add(userRest);
@@ -216,7 +207,6 @@ public class ConfController {
     @RequestMapping(value = "/users", method = RequestMethod.POST)
     public ResponseEntity<?> updateUsers(@RequestBody List<UserRest> userRestList) {
         for (UserRest userRest : userRestList) {
-//            User user = userRepository.findOne(userRest.getId());
             User user = userRepository.findUserByName(userRest.getName());
             if (user == null) {
                 return new ResponseEntity<Object>(new Role(0, "USER DOESN'T EXISTS"), HttpStatus.NOT_FOUND);
@@ -238,7 +228,7 @@ public class ConfController {
         User user = userRepository.findUserByName(userRest.getName());
         if (user == null) {
             userRest.setRole("NOT FOUND");
-            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND); //todo set by all exceptions userRest
+            return new ResponseEntity<Object>(userRest, HttpStatus.NOT_FOUND);
         }
         userRepository.delete(user);
         userRest.setRole("DELETED");
@@ -255,7 +245,6 @@ public class ConfController {
         user.setRole(3);
         user.setPasswd(userSignup.getPasswd());
         user.setName(userSignup.getName());
-//        userRepository.save(user);
         userService.saveUser(user);
         userSignup.setPasswd("OK");
         return new ResponseEntity<Object>(userSignup, HttpStatus.OK);
