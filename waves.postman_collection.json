@@ -411,7 +411,7 @@
 			"response": []
 		},
 		{
-			"name": "localhost:8080/login?username=Listener&password=a",
+			"name": "localhost:8080/login?username=UserNew&password=a",
 			"request": {
 				"method": "POST",
 				"header": [],

@@ -23,11 +23,12 @@ public class Schedule implements Serializable{
     @Getter @Setter
     private Presentation presentation;
 
-//    @Column(name = "date")
     @Getter @Setter
     private Date date;
 
+    @ManyToOne
+    @JoinColumn(name = "room_id")
     @Getter @Setter
-    private int room;
+    private Room room;
 
 }

@@ -17,6 +17,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.transaction.Transactional;
 import java.util.Date;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
@@ -58,38 +60,48 @@ public class App implements CommandLineRunner {
         Presentation presentationB = new Presentation("PresentationTwo");
         Presentation presentationC = new Presentation("PresentationThree");
 
+        Room room1 = new Room("One");
+        Room room2 = new Room("Two");
+        Room room3 = new Room("Three");
+        Room room4 = new Room("Four");
+
         Schedule schedule = new Schedule();
         schedule.setUser(userA);
         schedule.setPresentation(presentationA);
         schedule.setDate(new Date());
-        schedule.setRoom(4);
+        schedule.setRoom(room4);
         userA.getSchedules().add(schedule);
+        room4.getSchedules().add(schedule);
 
         Schedule schedule2 = new Schedule();
         schedule2.setUser(userA);
         schedule2.setPresentation(presentationB);
         schedule2.setDate(new Date());
-        schedule2.setRoom(1);
+        schedule2.setRoom(room1);
         userA.getSchedules().add(schedule2);
+        room1.getSchedules().add(schedule2);
 
         Schedule schedule1 = new Schedule();
         schedule1.setUser(userB);
         schedule1.setPresentation(presentationA);
         schedule1.setDate(new Date());
-        schedule1.setRoom(2);
+        schedule1.setRoom(room2);
         userB.getSchedules().add(schedule1);
+        room2.getSchedules().add(schedule1);
 
         Schedule schedule3 = new Schedule();
         schedule3.setUser(userB);
         schedule3.setPresentation(presentationC);
-        schedule3.setDate(new Date());
-        schedule3.setRoom(4);
+        Date date = new Date();
+        schedule3.setDate(new Date(date.getTime() + TimeUnit.HOURS.toMillis(1)));
+        schedule3.setRoom(room4);
         userB.getSchedules().add(schedule3);
+        room4.getSchedules().add(schedule3);
 
-        roomRepository.save(new Room(1, "One"));
-        roomRepository.save(new Room(2, "Two"));
-        roomRepository.save(new Room(3, "Three"));
-        roomRepository.save(new Room(4, "Four"));
+        roomRepository.save(room1);
+        roomRepository.save(room2);
+        roomRepository.save(room3);
+        roomRepository.save(room4);
 
         roleRepository.save(new Role(1, "Administrator"));
         roleRepository.save(new Role(2, "Presenter"));
