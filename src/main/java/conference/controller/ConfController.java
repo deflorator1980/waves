@@ -47,13 +47,13 @@ public class ConfController {
             schedules.addAll(user.getSchedules());
         }
 
-        schedules.sort(Comparator.comparing(a -> a.getRoom()));
+        schedules.sort(Comparator.comparing(a -> a.getRoom().getId()));
         for (Schedule schedule : schedules) {
             ScheduleRest scheduleRest = new ScheduleRest();
             scheduleRest.setPresentationDate(schedule.getDate());
             scheduleRest.setPresentationName(schedule.getPresentation().getName());
             scheduleRest.setUserName(schedule.getUser().getName());
-            scheduleRest.setRoomName(roomRepository.findOne(schedule.getRoom()).getName());
+            scheduleRest.setRoomName(roomRepository.findOne(schedule.getRoom().getId()).getName());
             scheduleRestList.add(scheduleRest);
         }
 
@@ -75,7 +75,7 @@ public class ConfController {
             scheduleRest.setPresentationDate(schedule.getDate());
             scheduleRest.setPresentationName(schedule.getPresentation().getName());
             scheduleRest.setUserName(schedule.getUser().getName());
-            scheduleRest.setRoomName(roomRepository.findOne(schedule.getRoom()).getName());
+            scheduleRest.setRoomName(roomRepository.findOne(schedule.getRoom().getId()).getName());
             scheduleRestList.add(scheduleRest);
         }
 
@@ -118,7 +118,6 @@ public class ConfController {
         System.out.println(name);
         User user = userRepository.findUserByName(name);
         Set<Schedule> schedulesSet = user.getSchedules();
-        Set<Schedule> schedulesUpdatedSet = new HashSet<>();
 
         AtomicInteger counter = new AtomicInteger(scheduleRestList.size());
         for (Schedule schedule : schedulesSet) {
@@ -128,13 +127,17 @@ public class ConfController {
                     return new ResponseEntity<Object>(new Role(0, "Presentation doesn't exist"), HttpStatus.NOT_FOUND);
                 }
                 if (schedule.getPresentation().getId() == presentation.getId()) {
-                    schedule.setDate(scheduleRest.getPresentationDate());
                     Room room = roomRepository.findRoomByName(scheduleRest.getRoomName());
                     if (room == null) {
                         return new ResponseEntity<Object>(new Role(0, "Room doesn't exist"), HttpStatus.NOT_FOUND);
                     }
-                    schedule.setRoom(room.getId());
-                    schedulesUpdatedSet.add(schedule);
+                    for (Schedule sched : room.getSchedules()) {
+                        if (new Date(sched.getDate().getTime()).equals(new Date(scheduleRest.getPresentationDate().getTime()))) {
+                            return new ResponseEntity<Object>(new Role(0, "The room is in use at the time"), HttpStatus.BAD_REQUEST);
+                        }
+                    }
+                    schedule.setDate(scheduleRest.getPresentationDate());
+                    schedule.setRoom(room);
                     counter.decrementAndGet();
                 }
             }
@@ -164,14 +167,23 @@ public class ConfController {
         Presentation presentation = new Presentation(scheduleRest.getPresentationName());
 
         Schedule scheduleN = new Schedule();
-        scheduleN.setUser(user);
-        scheduleN.setPresentation(presentation);
-        scheduleN.setDate(scheduleRest.getPresentationDate());
+
+
         Room room = roomRepository.findRoomByName(scheduleRest.getRoomName());
         if (room == null) {
             return new ResponseEntity<Object>(new Role(0, "Room doesn't exist"), HttpStatus.NOT_FOUND);
         }
-        scheduleN.setRoom(room.getId());
+        for (Schedule schedule : room.getSchedules()) {
+            if (new Date(schedule.getDate().getTime()).equals(new Date(scheduleRest.getPresentationDate().getTime()))) {
+                return new ResponseEntity<Object>(new Role(0, "The room is in use at the time"), HttpStatus.BAD_REQUEST);
+            }
+        }
+
+        scheduleN.setRoom(room);
+        scheduleN.setDate(scheduleRest.getPresentationDate());
+        scheduleN.setUser(user);
+        scheduleN.setPresentation(presentation);
+
         user.getSchedules().add(scheduleN);
         presentationRepository.save(presentation);
         scheduleRest.setUserName(user.getName());
