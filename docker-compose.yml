@@ -11,7 +11,7 @@ services:
       - /my/own/waves2:/var/lib/postgresql/data
   waves:
     build: .
-    image: deflorator1980/waves
+    image: deflorator1980/waves2
 #    command: sh run.sh
     command: java -jar waves-1.jar
 #    network_mode: "host"
