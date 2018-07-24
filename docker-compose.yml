@@ -8,11 +8,16 @@ services:
     environment:
       POSTGRES_PASSWORD: "postgres"
     volumes:
-      - /my/own/waves:/var/lib/postgresql/data
+      - /my/own/waves2:/var/lib/postgresql/data
   waves:
     build: .
     image: deflorator1980/waves
-    command: sh run.sh
-    network_mode: "host"
+#    command: sh run.sh
+    command: java -jar waves-1.jar
+#    network_mode: "host"
     ports:
       - 8080:8080
+    environment:
+      PGHOST: db
+    depends_on:
+      - db
