@@ -12,12 +12,8 @@ services:
   waves:
     build: .
     image: deflorator1980/waves2
-#    command: sh run.sh
     command: java -jar waves-1.jar
-    network_mode: "host"
     ports:
       - 8080:8080
-    environment:
-      PGHOST: db
-    depends_on:
+    links:
       - db

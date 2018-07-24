@@ -15,3 +15,5 @@ out/*
 project/
 *.log
 metastore_db/
+.waves/
+.waves2/
