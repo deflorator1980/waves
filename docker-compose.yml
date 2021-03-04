@@ -2,13 +2,13 @@ version: '3'
 
 services:
   db:
-    image: postgres:9.6-alpine
+    image: postgres:12-alpine
     ports:
       - 5422:5432
     environment:
       POSTGRES_PASSWORD: "postgres"
     volumes:
-      - .waves2:/var/lib/postgresql/data
+      - waves:/var/lib/postgresql/data
   waves:
     build: .
     image: deflorator1980/waves2
@@ -17,3 +17,6 @@ services:
       - 8080:8080
     links:
       - db
+
+volumes:
+  waves:
